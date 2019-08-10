@@ -1,0 +1,78 @@
+1.Khoi tao
+-npm init
+-npm install express --save
+-index.js 
+var express = require('express')
+var app = express()
+var port = 3001
+
+app.listen(port,() => Console.log(Server using port 3001 for ProjectJS app))
+2. Chon template engine
+-npm install pug --save
+-
+app.set('view engine','pug')
+app.set('views','./views')
+(OPTION)
+-(Ctrl+Shift+P) Packet Controll : Install Packet -- > Pug
+(EXAMPLE)
+-
+app.get('/users',(req,res) => res.render('users/index',{
+	users : [
+		{ id: 1, name : 'Dang'},
+		{ id: 2, name : 'Hung'},
+		{ id: 3, name : 'Lam'}
+	]
+}))
+inside user/index.pug
+h1 Users Page
+ul 
+	each  user in users
+		li= user.name
+3. Cai auto-save-start sever nodemon 
+-npm install --save-dev nodemon
+-Them trong "script" cua packet.json : key "start" : value "nodemon index.js"
+-Them nodemon.json trong ProjectJS {"ignore" : ["db.json"]}
+
+4. Them de doc res.body
+-index.js
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
+5. Cai lowdb 
+-npm install lowdb --save
+-index.js
+const low = require('lowdb')
+const FileSync = require('lowdb/adapters/FileSync')
+const adapter = new FileSync('db.json')
+const db = low(adapter)
+
+db.defaults({ users: [] })
+  .write()
+
+6. Cai shortid (generate id cho user trong db)
+-npm install shortid --save
+-index.js
+const shortid = require('shortid')
+
+7. Cai multer cho multipart/form-data
+
+!!!IMPORTANT!!! Don't forget the enctype="multipart/form-data" in your form !!!IMPORTANT!!! 
+
+<form action="/profile" method="post" enctype="multipart/form-data">
+  <input type="file" name="avatar" />
+</form>
+
+-npm install --save multer
+
+
+7. Cai cookie-parser
+-npm install cookie-parser --save
+-index.js
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
+8. Set secret key cho cookies
+-index.js
+app.use(cookieParser('481274hfuhwafjkaw'))
+-auth.controller.js
+res.cookie('userID',user.id,{signed: true});
