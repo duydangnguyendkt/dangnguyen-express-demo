@@ -1,6 +1,7 @@
-var shortid = require('shortid')
+//var shortid = require('shortid')
 // var db = require('../db.js')
 var User = require('../models/user.model');
+var md5 = require('md5');
 
 module.exports.index = async (req,res) => {
 
@@ -46,8 +47,12 @@ module.exports.postCreateUser = (req,res) =>
 	// req.body.id = shortid.generate();
 	req.body.avatar = req.file.path.split('\\').slice(1)
 						.join('\\');
+	var password = req.body.password;
 
-		
+	var hashedPassword = md5(password);
+
+	req.body.password = hashedPassword;
+
 	// db.get('users').push(req.body).write(); 
 	User.create(req.body);
 	
