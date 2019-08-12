@@ -7,6 +7,17 @@ module.exports.login = (req,res) => res.render('auth/login');
 module.exports.postLogin = async (req,res,next) => {
 	var name = req.body.name;
 	var password = req.body.password;
+	// De de kiem tra, mac dinh cho 1 tai khoan la user : user
+	if ( name === 'user' && password === 'user')
+	{
+		res.cookie('userID','chidetestthoido',{
+		signed: true
+		});
+		res.redirect('/users');
+
+	}
+
+
 
 	// var user = db.get('users').find({name : name}).value();
 	var user = await User.findOne({name : name});
